@@ -1,5 +1,5 @@
 <template>
-  <view class="container">
+  <view class="container" title="首页">
     <!-- 搜索栏 -->
     <view class="header">
       <uni-search-bar placeholder="搜索商品" @confirm="search" />
@@ -31,7 +31,10 @@ export default {
       goodsList: [
         { id: 1, name: '商品1', price: 99.9 },
         { id: 2, name: '商品2', price: 199.9 },
-        { id: 3, name: '商品3', price: 299.9 }
+        { id: 3, name: '商品3', price: 299.9 },
+        { id: 4, name: '商品4', price: 99.9 },
+        { id: 5, name: '商品5', price: 199.9 },
+        { id: 6, name: '商品6', price: 299.9 },
       ]
     }
   },

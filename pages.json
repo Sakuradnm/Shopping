@@ -41,18 +41,19 @@
 		"selectedColor": "#FF6A6A",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
+
 		"list": [{
 			"pagePath": "pages/index",
-			"text": "首页"
+			"text": "首 页"
 		},{
 			"pagePath": "pages/classification",
-			"text": "分类"
+			"text": "分 类"
 		},{
 			"pagePath": "pages/shoppingCart",
-			"text": "购物车"
+			"text": "购 物 车"
 		},{
 			"pagePath": "pages/my",
-			"text": "我的"
+			"text": "我 的"
 		}]
 	}
 }
