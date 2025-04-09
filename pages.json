@@ -1,10 +1,32 @@
 {
 	"pages": [{
-		"path": "pages/index/index",
+		"path": "pages/index",
 		"style": {
 			"navigationBarTitleText": "无敌暴龙之天下唯一旗舰店"
 		}
-	}],
+	},
+		{
+			"path" : "pages/classification",
+			"style" :
+			{
+				"navigationBarTitleText" : "分类"
+			}
+		},
+		{
+			"path" : "pages/shoppingCart",
+			"style" :
+			{
+			"navigationBarTitleText" : "购物车"
+			}
+		},
+		{
+			"path" : "pages/my",
+			"style" :
+			{
+				"navigationBarTitleText" : "我的"
+			}
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
@@ -13,5 +35,24 @@
 		"app-plus": {
 			"background": "#efeff4"
 		}
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#FF6A6A",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/index",
+			"text": "首页"
+		},{
+			"pagePath": "pages/classification",
+			"text": "分类"
+		},{
+			"pagePath": "pages/shoppingCart",
+			"text": "购物车"
+		},{
+			"pagePath": "pages/my",
+			"text": "我的"
+		}]
 	}
 }
