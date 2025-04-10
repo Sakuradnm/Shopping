@@ -112,12 +112,11 @@ export default {
   padding: 30rpx;
   font-size: 28rpx;
   border-left: 4rpx solid transparent;
-
-  &.active {
-    background: #fff;
-    border-color: #ff6a6a;
-    color: #ff6a6a;
-  }
+}
+.menu-item.active {
+  background: #fff;
+  border-color: #ff6a6a;
+  color: #ff6a6a;
 }
 
 .right-content {

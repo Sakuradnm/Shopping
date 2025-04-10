@@ -25,6 +25,12 @@
 			{
 				"navigationBarTitleText" : "我的"
 			}
+		},
+		{
+			"path": "ucenter/login/index",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
 		}
 	],
 	"globalStyle": {

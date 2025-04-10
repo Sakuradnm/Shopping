@@ -3,7 +3,7 @@
     <!-- 购物车列表 -->
     <view class="cart-list">
       <view v-if="cartList.length === 0" class="empty-cart">
-        <image src="/static/empty-cart.png" class="empty-icon" />
+        <image src="/static/dog2.gif" class="empty-icon" mode="widthFix"/>
         <text class="empty-text">购物车空空如也，快去逛逛吧~</text>
       </view>
       <view v-else>
@@ -35,25 +35,20 @@
           <view class="slide-actions">
             <view class="btn-delete" @click="handleDelete(item.id)">删除</view>
           </view>
+        </view>
       </view>
 
-
-
-      </view>
       <!-- 结算栏 -->
       <view class="settlement-bar">
         <view class="select-all">
           <checkbox :checked="allChecked" @click="toggleAllCheck" />
           全选
         </view>
-
         <view class="price-info" v-if="!showDelete">
-          <view class="total-price">
-            合计：¥{{ totalPrice }}
-          </view>
-          <view class="total-quantity">共{{ checkedCount }}件</view>
+          <span class="total-quantity">已选{{ checkedCount }}件,</span>
+          合计：
+          <span class="total-price">¥{{ totalPrice }}</span>
         </view>
-
         <button
             class="btn-settle"
             v-if="!showDelete"
@@ -209,13 +204,32 @@ export default {
 </script>
 
 <style>
+.empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100rpx 0;
+  margin-top: 50rpx;
+}
+.empty-icon {
+  width: 300rpx;
+  margin-bottom: 80rpx;
+  animation: fadeIn 0.6s ease-in;
+}
+.empty-text {
+  color: #888;
+  font-size: 30rpx;
+}
+
+
 .cart-item {
   display: flex;
   padding: 20rpx;
   background: #fff;
-  margin-bottom: 20rpx;
+  margin: 20rpx 10rpx;
   position: relative;
   transition: transform 0.3s ease;
+  border-radius: 20rpx;
 }
 
 .item-content {
@@ -230,7 +244,6 @@ export default {
   align-items: center;
   margin-right: 20rpx;
 }
-
 .goods-thumb {
   width: 150rpx;
   height: 150rpx;
@@ -241,24 +254,23 @@ export default {
 .item-right {
   flex: 1;
 }
-
 .quantity-control {
   display: flex;
   align-items: center;
   margin-top: 20rpx;
+  padding-left: 150rpx;
 }
-
 .btn-minus, .btn-plus {
-  width: 50rpx;
-  height: 50rpx;
+  margin: 0;
+  padding: 0 20rpx;
   line-height: 50rpx;
-  font-size: 32rpx;
+  font-size:26rpx;
 }
-
 .quantity-input {
-  width: 80rpx;
+  width: 60rpx;
   text-align: center;
-  margin: 0 10rpx;
+  margin: 0 20rpx;
+  border-bottom: 1rpx solid #b1b1b0;
 }
 
 .settlement-bar {
@@ -275,26 +287,6 @@ export default {
   z-index: 100;
 }
 
-.select-all {
-  display: flex;
-  align-items: center;
-  margin-right: auto;
-}
-.price-info {
-  margin-left: auto;
-  text-align: right;
-  margin-right: 30rpx;
-}
-.total-price {
-  color: #ff4646;
-  font-size: 34rpx;
-  font-weight: bold;
-}
-.total-quantity {
-  color: #888;
-  font-size: 24rpx;
-}
-
 .btn-settle {
   background: #ff6a6a;
   color: white;
@@ -307,49 +299,26 @@ export default {
   align-items: center;
   justify-content: center;
 }
-.btn-delete {
-  background: #ff4646;
-  color: white;
-  height: 60rpx;
-  line-height: 60rpx;
-  margin-left: 20rpx;
+.btn-settle:active {
+  opacity: 0.8;
+  transform: scale(0.98);
 }
 .btn-settle.disabled {
   background: #cccccc;
   opacity: 0.7;
 }
 
-
-.empty-cart {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 100rpx 0;
-}
-
-.empty-icon {
-  width: 200rpx;
-  height: 200rpx;
-  margin-bottom: 40rpx;
-}
-
-.empty-text {
-  color: #888;
-  font-size: 28rpx;
-}
-
 .slide-actions {
   position: absolute;
-  right: -120px;
+  right: -80px;
   top: 0;
   bottom: 0;
-  width: 120px;
+  width: 80px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding-right: 20rpx;
+  padding-left: 20rpx;
 }
-
 .btn-delete {
   background: #ff4646;
   color: white;
@@ -361,18 +330,33 @@ export default {
   justify-content: center;
 }
 
-
-.btn-settle {
-  /* 添加过渡效果 */
-  transition: all 0.3s;
+.select-all {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+}
+.price-info {
+  text-align: right;
+  margin: 0 20rpx;
+}
+.total-price {
+  color: #ff0000;
+  font-size: 34rpx;
+  font-weight: bold;
+}
+.total-quantity {
+  color: #b1b1b0;
+  font-size: 24rpx;
+  padding-right: 10rpx;
 }
 
-.btn-settle:active {
-  opacity: 0.8;
-  transform: scale(0.98);
-}
 
-/* 优化勾选状态 */
+
+
+
+
+
+/* 勾选状态 */
 checkbox .wx-checkbox-input,
 checkbox .uni-checkbox-input {
   border-radius: 50% !important;
@@ -381,6 +365,6 @@ checkbox .uni-checkbox-input {
 checkbox .wx-checkbox-input.wx-checkbox-input-checked,
 checkbox .uni-checkbox-input.uni-checkbox-input-checked {
   background: #ff6a6a !important;
-  border-color: #ff6a6a !important;
 }
+
 </style>

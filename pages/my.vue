@@ -2,10 +2,9 @@
   <view class="container" title="我的">
     <!-- 用户信息 -->
     <view class="user-info">
-      <image class="avatar" src="#" />
+      <image class="avatar" src="/static/vip.png" />
       <view class="user-meta">
-        <view class="username">点击登录</view>
-        <view class="vip-level">普通会员</view>
+        <view class="username" @click="navigateToLogin">点击登录</view>
       </view>
     </view>
 
@@ -55,6 +54,12 @@ export default {
     }
   },
   methods: {
+    // 登录跳转
+    navigateToLogin() {
+      uni.navigateTo({
+        url: '/ucenter/login/index'
+      })
+    },
     navigateTo(path) {
       uni.navigateTo({url: path})
     },
@@ -92,10 +97,7 @@ export default {
   margin-bottom: 10rpx;
 }
 
-.vip-level {
-  color: #666;
-  font-size: 28rpx;
-}
+
 
 .function-grid {
   display: grid;

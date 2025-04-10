@@ -73,6 +73,10 @@ export default {
   padding: 20rpx;
 }
 
+.header {
+  margin-bottom: 20rpx;
+}
+
 .banner {
   height: 300rpx;
   margin: 20rpx 0;
