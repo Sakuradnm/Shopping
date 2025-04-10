@@ -29,12 +29,12 @@ export default {
     return {
       banners: [{}, {}, {}], // 模拟3个广告位
       goodsList: [
-        { id: 1, name: '商品1', price: 99.9 },
-        { id: 2, name: '商品2', price: 199.9 },
-        { id: 3, name: '商品3', price: 299.9 },
-        { id: 4, name: '商品4', price: 99.9 },
-        { id: 5, name: '商品5', price: 199.9 },
-        { id: 6, name: '商品6', price: 299.9 },
+        { id: 1, name: '商品1', price: 9.9 },
+        { id: 2, name: '商品2', price: 99.9 },
+        { id: 3, name: '商品3', price: 999.9 },
+        { id: 4, name: '商品4', price: 9999.9 },
+        { id: 5, name: '商品5', price: 99999.9 },
+        { id: 6, name: '商品6', price: 999999.9 },
       ]
     }
   },
@@ -43,12 +43,27 @@ export default {
       console.log('搜索内容：', value)
     },
     addToCart(item) {
-      console.log('加入购物车：', item)
+      const cart = uni.getStorageSync('cart') || []
+      const existItem = cart.find(i => i.id === item.id)
+
+      if (existItem) {
+        existItem.quantity++
+      } else {
+        cart.push({
+          ...item,
+          quantity: 1,
+          checked: true,
+          thumb: '#' // 实际项目需要替换为真实图片路径
+        })
+      }
+
+      uni.setStorageSync('cart', cart)
       uni.showToast({
         title: '已加入购物车',
         icon: 'none'
       })
     }
+
   }
 }
 </script>

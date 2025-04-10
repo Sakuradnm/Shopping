@@ -44,16 +44,24 @@
 
 		"list": [{
 			"pagePath": "pages/index",
-			"text": "首 页"
+			"text": "首 页",
+			"iconPath": "static/home.png",
+			"selectedIconPath": "static/home-sel.png"
 		},{
 			"pagePath": "pages/classification",
-			"text": "分 类"
+			"text": "分 类",
+			"iconPath": "static/classification.png",
+			"selectedIconPath": "static/classification-sel.png"
 		},{
 			"pagePath": "pages/shoppingCart",
-			"text": "购 物 车"
+			"text": "购 物 车",
+			"iconPath": "static/shoppingCart.png",
+			"selectedIconPath": "static/shoppingCart-sel.png"
 		},{
 			"pagePath": "pages/my",
-			"text": "我 的"
+			"text": "我 的",
+			"iconPath": "static/my.png",
+			"selectedIconPath": "static/my-sel.png"
 		}]
 	}
 }

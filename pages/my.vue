@@ -42,9 +42,9 @@ export default {
   data() {
     return {
       functions: [
-        {id: 1, name: '我的订单', icon: 'cart', path: '/pages/orders'},
-        {id: 2, name: '地址管理', icon: 'location', path: '/pages/address'},
-        {id: 3, name: '客服中心', icon: 'help', path: '/pages/service'}
+        {id: 1, name: '地址管理', icon: 'location', path: '/my/address/index'},
+        {id: 2, name: '我的订单', icon: 'cart', path: '/my/orders/index'},
+        {id: 3, name: '客服中心', icon: 'help', path: '/my/service/index'}
       ],
       orderTabs: [
         {status: 1, label: '待付款', count: 0},
