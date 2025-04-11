@@ -70,6 +70,14 @@
         <text v-else-if="!hasMore">没有更多内容了</text>
       </view>
     </view>
+
+    <view
+        class="back-top"
+        v-show="showBackTop"
+        @click="scrollToTop"
+    >
+      <uni-icons type="arrow-up" size="24" color="#fff"></uni-icons>
+    </view>
   </view>
 </template>
 
@@ -89,6 +97,7 @@ export default {
       pageSize: 10,
       loadCount: 0,
       isFirstLoad: true,
+      showBackTop: false, // 新增返回顶部按钮显示状态
     }
   },
   onLoad() {
@@ -103,11 +112,20 @@ export default {
   onPageScroll(e) {
     // 添加防抖处理
     clearTimeout(this.timer)
+    this.showBackTop = e.scrollTop > 200
     this.timer = setTimeout(() => {
       this.checkScroll()
     }, 300)
   },
   methods: {
+    //一键回到顶部
+    scrollToTop() {
+      uni.pageScrollTo({
+        scrollTop: 0,
+        duration: 300
+      })
+    },
+
     async loadPosts() {
       this.loading = true
       try {
@@ -254,5 +272,26 @@ export default {
   padding: 20rpx;
   color: #999;
   font-size: 28rpx;
+}
+
+.back-top {
+  position: fixed;
+  right: 30rpx;
+  bottom: 100rpx;
+  width: 80rpx;
+  height: 80rpx;
+  background: rgb(255, 106, 106);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.15);
+  z-index: 999;
+  transition: all 0.3s;
+}
+
+.back-top:active {
+  transform: scale(0.9);
+  background: #ff4b4b;
 }
 </style>
