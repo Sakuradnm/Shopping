@@ -3,8 +3,8 @@
     <!-- 用户信息 -->
     <view class="user-info">
       <image class="avatar" src="/static/vip.png" />
-      <view class="user-meta">
-        <view class="username" @click="navigateToLogin">点击登录</view>
+      <view class="user-meta" @click="navigateToLogin">
+        <view class="username" >点击登录</view>
       </view>
     </view>
 
@@ -41,15 +41,13 @@ export default {
   data() {
     return {
       functions: [
-        {id: 1, name: '地址管理', icon: 'location', path: '/my/address/index'},
-        {id: 2, name: '我的订单', icon: 'cart', path: '/my/orders/index'},
+        {id: 1, name: '我的订单', icon: 'cart', path: '/my/orders/index'},
         {id: 3, name: '客服中心', icon: 'help', path: '/my/service/index'}
       ],
       orderTabs: [
-        {status: 1, label: '待付款', count: 0},
-        {status: 2, label: '待发货', count: 0},
-        {status: 3, label: '待收货', count: 0},
-        {status: 4, label: '待评价', count: 0}
+        {status: 1, label: '待发货', count: 0},
+        {status: 2, label: '待收货', count: 0},
+        {status: 3, label: '评价', count: 0},
       ]
     }
   },
@@ -85,16 +83,18 @@ export default {
   height: 120rpx;
   border-radius: 50%;
   background: #f5f5f5;
-  margin-right: 30rpx;
+  margin-right: 40rpx;
 }
 
 .user-meta {
-  flex: 1;
+  height: 100rpx;
+  width: 200rpx;
+  margin: auto 10rpx;
 }
-
 .username {
+  margin-top: 25rpx;
   font-size: 36rpx;
-  margin-bottom: 10rpx;
+  letter-spacing: 7rpx;
 }
 
 

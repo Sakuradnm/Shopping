@@ -13,6 +13,13 @@
 			}
 		},
 		{
+			"path" : "pages/release",
+			"style" :
+			{
+				"navigationBarTitleText" : "发布"
+			}
+		},
+		{
 			"path" : "pages/shoppingCart",
 			"style" :
 			{
@@ -58,6 +65,11 @@
 			"text": "分 类",
 			"iconPath": "static/classification.png",
 			"selectedIconPath": "static/classification-sel.png"
+		},{
+			"pagePath": "pages/release",
+			"text": "发 布",
+			"iconPath": "static/release.png",
+			"selectedIconPath": "static/release-sel.png"
 		},{
 			"pagePath": "pages/shoppingCart",
 			"text": "购 物 车",

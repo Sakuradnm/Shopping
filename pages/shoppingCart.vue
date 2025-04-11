@@ -3,7 +3,7 @@
     <!-- 购物车列表 -->
     <view class="cart-list">
       <view v-if="cartList.length === 0" class="empty-cart">
-        <image src="/static/dog2.gif" class="empty-icon" mode="widthFix"/>
+        <image src="/static/gif/dog2.gif" class="empty-icon" mode="widthFix"/>
         <text class="empty-text">购物车空空如也，快去逛逛吧~</text>
       </view>
       <view v-else>
@@ -33,7 +33,7 @@
           </view>
 
           <view class="slide-actions">
-            <view class="btn-delete" @click="handleDelete(item.id)">删除</view>
+            <view class="btn-delete" @click="handleDelete(item.id)">删 除</view>
           </view>
         </view>
       </view>
@@ -310,10 +310,10 @@ export default {
 
 .slide-actions {
   position: absolute;
-  right: -80px;
+  right: -200rpx;
   top: 0;
   bottom: 0;
-  width: 80px;
+  width: 150rpx;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -324,7 +324,8 @@ export default {
   color: white;
   padding: 0 30rpx;
   height: 70%;
-  border-radius: 35rpx;
+  width: 100%;
+  border-radius: 20rpx;
   display: flex;
   align-items: center;
   justify-content: center;

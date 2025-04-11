@@ -2,32 +2,19 @@
   <view class="container" title="分类">
     <!-- 分类导航 -->
     <view class="category-container">
-      <!-- 左侧分类菜单 -->
-      <scroll-view class="left-menu" scroll-y>
-        <view
-            v-for="(item, index) in categories"
-            :key="item.id"
-            class="menu-item"
-            :class="{ active: activeIndex === index }"
-            @click="switchCategory(index)"
-        >
-          {{ item.name }}
-        </view>
-      </scroll-view>
-
-      <!-- 右侧子分类 -->
-      <scroll-view class="right-content" scroll-y>
+      <!-- 分类 -->
+      <scroll-view class="menu" scroll-y>
         <view v-for="sub in subCategories" :key="sub.id" class="sub-category">
           <view class="sub-title">{{ sub.name }}</view>
-          <view class="goods-grid">
+          <view class="menu-grid">
             <view
                 v-for="goods in sub.goods"
                 :key="goods.id"
-                class="goods-item"
+                class="menu-item"
                 @click="navigateToGoods(goods.id)"
             >
-              <image :src="goods.thumb" class="goods-image" />
-              <view class="goods-name">{{ goods.name }}</view>
+              <image :src="goods.image" class="menu-image" />
+              <view class="menu-name">{{ goods.name }}</view>
             </view>
           </view>
         </view>
@@ -41,45 +28,39 @@ export default {
   data() {
     return {
       activeIndex: 0,
-      categories: [
-        {id: 1, name: '手机数码'},
-        {id: 2, name: '家用电器'},
-        {id: 3, name: '服装鞋包'}
-      ],
       subCategories: [
         {
           id: 1,
-          name: '手机/平板',
+          name: '买卖求购',
           goods: [
-            {id: 1, name: '小米15', thumb: '#'},
-            {id: 2, name: 'OPPO find x8', thumb: '#'},
-            {id: 3, name: '苹果16', thumb: '#'},
-            {id: 4, name: '小米6s pro', thumb: '#'},
-            {id: 5, name: 'ipad 2024', thumb: '#'},
+            {id: 1, name: '买入', image: '/static/classification/buy.png'},
+            {id: 2, name: '求购', image: '/static/classification/purchase.png'},
           ]
         },
         {
           id: 2,
-          name: '大众电器',
+          name: '代课服务',
           goods: [
-            {id: 1, name: '冰箱', thumb: '#'},
-            {id: 2, name: '空调', thumb: '#'},
-            {id: 3, name: '电视', thumb: '#'},
-            {id: 4, name: '洗衣机', thumb: '#'},
-            {id: 5, name: '微波炉', thumb: '#'},
+            {id: 1, name: '代课', image: '/static/classification/substitute.png'},
+            {id: 2, name: '求代', image: '/static/classification/seek.png'},
           ]
         },
         {
           id: 3,
-          name: '潮鞋衣装',
+          name: '跑腿服务',
           goods: [
-            {id: 1, name: '裤子', thumb: '#'},
-            {id: 2, name: '裙子', thumb: '#'},
-            {id: 3, name: '上衣', thumb: '#'},
-            {id: 4, name: '鞋子', thumb: '#'},
-            {id: 5, name: '首饰', thumb: '#'},
+            {id: 1, name: '代拿', image: '/static/classification/errand.png'},
+            {id: 2, name: '外卖', image: '/static/classification/takeout.png'},
           ]
-        }
+        },
+        {
+          id: 4,
+          name: '其他',
+          goods: [
+            {id: 1, name: '拼单', image: '/static/classification/group.png'},
+          ]
+        },
+
       ]
     }
   },
@@ -100,55 +81,39 @@ export default {
 <style>
 .category-container {
   display: flex;
-  height: calc(100vh - 60px);
 }
-
-.left-menu {
-  width: 200rpx;
-  background: #f8f8f8;
-}
-
-.menu-item {
-  padding: 30rpx;
-  font-size: 28rpx;
-  border-left: 4rpx solid transparent;
-}
-.menu-item.active {
-  background: #fff;
-  border-color: #ff6a6a;
-  color: #ff6a6a;
-}
-
-.right-content {
+.menu {
   flex: 1;
   padding: 20rpx;
 }
-
+.sub-category {
+  margin: 30rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding-top: 15rpx;
+}
 .sub-title {
   font-size: 32rpx;
   font-weight: bold;
-  margin: 20rpx 0;
+  margin-bottom: 20rpx;
+  padding-left: 25rpx;
 }
 
-.goods-grid {
+.menu-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20rpx;
 }
-
-.goods-item {
+.menu-item {
   text-align: center;
 }
-
-.goods-image {
-  width: 150rpx;
-  height: 150rpx;
-  background: #f5f5f5;
-  border-radius: 8rpx;
+.menu-image {
+  width: 100rpx;
+  height: 100rpx;
 }
-
-.goods-name {
-  font-size: 24rpx;
-  margin-top: 10rpx;
+.menu-name {
+  font-size: 27rpx;
+  margin: 10rpx 0;
+  font-weight: 700;
 }
 </style>

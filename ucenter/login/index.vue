@@ -4,7 +4,7 @@
     <view class="login-header">
       <image
           class="title-gif"
-          src="/static/dog.gif"
+          src="/static/gif/dog.gif"
           mode="widthFix"
       />
     </view>
@@ -49,6 +49,55 @@
         </view>
       </view>
     </uni-popup>
+
+    <!-- 手机验证码登录 -->
+    <view v-if="loginType === 'sms'" class="sms-login-form">
+      <input
+          v-model="smsForm.phone"
+          placeholder="请输入手机号码"
+          type="number"
+          class="custom-input"
+          placeholder-class="input-placeholder"
+      />
+      <view class="code-input-group">
+        <input
+            v-model="smsForm.code"
+            placeholder="请输入验证码"
+            type="number"
+            class="custom-input code-input"
+            placeholder-class="input-placeholder"
+        />
+        <button
+            class="get-code-btn"
+            :class="{ disabled: isCounting }"
+            @click="getSMSCode"
+        >
+          {{ codeButtonText }}
+        </button>
+      </view>
+      <button class="login-btn" @click="handleSmsLogin">登录</button>
+    </view>
+
+    <!-- 密码登录 -->
+    <view v-if="loginType === 'password'" class="password-login-form">
+      <input
+          v-model="passwordForm.account"
+          placeholder="请输入手机号/邮箱"
+          class="custom-input"
+          placeholder-class="input-placeholder"
+      />
+      <input
+          v-model="passwordForm.password"
+          placeholder="请输入密码"
+          :password="true"
+          class="custom-input"
+          placeholder-class="input-placeholder"
+      />
+      <view class="forgot-password" @click="navigateToForgot">
+        <text>忘记密码？</text>
+      </view>
+      <button class="login-btn" @click="handlePasswordLogin">登录</button>
+    </view>
   </view>
 </template>
 
@@ -58,7 +107,18 @@ export default {
     return {
       loginType: 'quick',
       agreeProtocol: false,
-      showLoginMethods: false
+      showLoginMethods: false,
+      smsForm: {
+        phone: '',
+        code: ''
+      },
+      passwordForm: {
+        account: '',
+        password: ''
+      },
+      isCounting: false,
+      countdown: 60,
+      codeButtonText: '获取验证码'
     }
   },
   watch: {
@@ -67,6 +127,94 @@ export default {
     }
   },
   methods: {
+    // 获取短信验证码
+    async getSMSCode() {
+      if (!this.validatePhone()) return
+      if (this.isCounting) return
+
+      try {
+        const res = await uni.request({
+          url: '/api/sms/send',
+          method: 'POST',
+          data: { phone: this.smsForm.phone }
+        })
+        if (res.code === 200) {
+          this.startCountdown()
+          uni.showToast({ title: '验证码已发送', icon: 'success' })
+        }
+      } catch (error) {
+        uni.showToast({ title: '发送失败，请重试', icon: 'none' })
+      }
+    },
+    // 启动倒计时
+    startCountdown() {
+      this.isCounting = true
+      const timer = setInterval(() => {
+        if (this.countdown <= 0) {
+          clearInterval(timer)
+          this.isCounting = false
+          this.codeButtonText = '重新获取'
+          this.countdown = 60
+          return
+        }
+        this.countdown--
+        this.codeButtonText = `${this.countdown}s后重试`
+      }, 1000)
+    },
+    // 手机号验证
+    validatePhone() {
+      if (!/^1[3-9]\d{9}$/.test(this.smsForm.phone)) {
+        uni.showToast({ title: '手机号格式错误', icon: 'none' })
+        return false
+      }
+      return true
+    },
+
+    // 短信登录处理
+    async handleSmsLogin() {
+      if (!this.validateForm('sms')) return
+      // 调用短信登录API
+    },
+
+    // 密码登录处理
+    async handlePasswordLogin() {
+      if (!this.validateForm('password')) return
+      // 调用密码登录API
+    },
+    // 表单验证
+    validateForm(type) {
+      if (!this.agreeProtocol) {
+        this.showProtocolAlert()
+        return false
+      }
+
+      if (type === 'sms') {
+        if (!this.smsForm.phone) {
+          uni.showToast({ title: '请输入手机号', icon: 'none' })
+          return false
+        }
+        if (!this.smsForm.code) {
+          uni.showToast({ title: '请输入验证码', icon: 'none' })
+          return false
+        }
+      } else if (type === 'password') {
+        if (!this.passwordForm.account) {
+          uni.showToast({ title: '请输入账号', icon: 'none' })
+          return false
+        }
+        if (!this.passwordForm.password) {
+          uni.showToast({ title: '请输入密码', icon: 'none' })
+          return false
+        }
+      }
+      return true
+    },
+    // 跳转忘记密码
+    navigateToForgot() {
+      uni.navigateTo({ url: '/pages/ucenter/forgot/index' })
+    },
+
+
     toggleAgree() {
       this.agreeProtocol = !this.agreeProtocol
     },
@@ -95,17 +243,16 @@ export default {
 .login-container {
   display: flex;
   flex-direction: column;
-  height: 70vh;
 
   .login-header {
     text-align: center;
-    margin-bottom: 80rpx;
+    margin-bottom: 60rpx;
 
     .title-gif {
       width: 500rpx;
       height: auto;
       display: block;
-      margin: 40rpx auto;
+      margin: 40rpx auto 0;
       animation: fadeIn 0.6s ease-in;
     }
 
@@ -199,5 +346,69 @@ export default {
       }
     }
   }
+}
+// 新增样式
+.custom-input {
+  width: 70%;
+  margin: 30rpx auto;
+  height: 100rpx;
+  padding: 0 40rpx;
+  background: rgb(255, 255, 255);
+  box-shadow: 0 0 5rpx rgb(255, 106, 106);
+  border-radius: 50rpx;
+  font-size: 32rpx;
+  -webkit-appearance: none;
+}
+
+.input-placeholder {
+  color: #999;
+  font-size: 32rpx;
+}
+
+.code-input-group {
+  position: relative;
+  width: 80%;
+  margin: 0 auto;
+  .code-input {
+    width: 54%;
+    padding-right: 240rpx;
+  }
+  .get-code-btn {
+    font-size: 30rpx;
+    color: #504f4f;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    line-height: 1;
+    padding: 20rpx;
+    z-index: 2;
+    border-left: #ff6a6a 1rpx solid;
+    border-radius: 0;
+    &::after {
+      border: none;
+    }
+    &.disabled {
+      color: #999;
+    }
+  }
+}
+
+.login-btn {
+  width: 80%;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-radius: 50rpx;
+  background: #FF6A6A;
+  color: white;
+  margin-top: 60rpx;
+}
+
+.forgot-password {
+  text-align: right;
+  padding: 0 12%;
+  color: #00a6ff;
+  font-size: 24rpx;
 }
 </style>
