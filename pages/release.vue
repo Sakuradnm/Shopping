@@ -44,13 +44,17 @@
           <text class="form-label">添加图片</text>
           <view class="upload-grid">
             <view
+                class="image-preview"
                 v-for="(img, index) in formData.images"
                 :key="index"
-                class="image-preview"
+                @click="handlePreviewClick(index)"
+                @longpress="showDelete = index"
             >
-              <image :src="img" class="preview-image" />
-              <view class="delete-mask" @click="removeImage(index)">
-                <uni-icons type="close" size="20" color="#fff"></uni-icons>
+              <image :src="img" class="preview-image" mode="aspectFill" lazy-load/>
+              <view v-if="showDelete === index" class="delete-mask">
+                <view class="delete-btn" @click.stop="removeImage(index)">
+                  <uni-icons type="close" size="30" color="#fff"></uni-icons>
+                </view>
               </view>
             </view>
             <view
@@ -78,6 +82,7 @@
       </view>
     </scroll-view>
   </view>
+
 </template>
 
 <script>
@@ -95,6 +100,7 @@ const DEFAULT_CATEGORIES = [
 export default {
   data() {
     return {
+      showDelete: null,
       selectedType: null,
       formData: {
         title: '',
@@ -116,6 +122,15 @@ export default {
     }
   },
   methods: {
+    handlePreviewClick(index) {
+      if (this.showDelete === index) {
+        // 点击删除区域外时关闭删除状态
+        this.showDelete = null;
+      } else if (this.showDelete === null) {
+        // 正常预览逻辑
+        this.previewImage(index);
+      }
+    },
     selectType(id) {
       this.selectedType = this.selectedType === id ? null : id;
     },
@@ -129,6 +144,16 @@ export default {
     },
     removeImage(index) {
       this.formData.images.splice(index, 1);
+      this.showDelete = null;
+    },
+    previewImage(index) {
+      if (this.showDelete !== null) return; // 正在操作删除时不触发预览
+      uni.previewImage({
+        current: index,
+        urls: this.formData.images,
+        indicator: "number",
+        loop: true
+      });
     },
     async handleSubmit() {
       if (!this.formValid) {
@@ -262,17 +287,22 @@ export default {
 }
 
 .image-preview {
-  width: 200rpx;
-  height: 200rpx;
-  border-radius: 8rpx;
+  width: 220rpx;
+  height: 220rpx;
+  border-radius: 12rpx;
   position: relative;
   overflow: hidden;
+  transition: transform 0.2s;
+  &:active {
+    transform: scale(0.98);
+  }
 }
 
 .preview-image {
-  width: 100rpx;
-  height: 100rpx;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
 .delete-mask {
@@ -281,10 +311,28 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: scaleIn 0.2s;
+}
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.delete-btn {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+  &:active {
+    transform: scale(0.9);
+  }
 }
 
 .upload-btn {
